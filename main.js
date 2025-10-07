@@ -1,4 +1,4 @@
-let cookies = 0;
+let cookies = 100;
 let cookiesperclick = 1;
 let powerAmount = 0;
 let cookiespersecond = 0;
@@ -25,7 +25,7 @@ const upgradecookiesperclick2btn = document.getElementById("upgradecookiespercli
 const upgradecookiespersecondbtn = document.getElementById("upgradecookiespersecond");
 
 //saving data
-const localstorage = window.localstorage;
+const localstorage = window.localStorage;
 
 //*Click the cookie
 function clickcookie(cookieAmount) {
@@ -35,7 +35,7 @@ function clickcookie(cookieAmount) {
 
 // Auto-click per tick
 function autoclickcookie() {
-  clickcookie(Math.round(cookiespersecond / 100));
+  clickcookie(cookiespersecond);
   updatecookies();
 }
 
@@ -55,7 +55,7 @@ function upgradecookiesperclick() {
     cookies -= cpcupgradecost;
     cookiesperclick += cpcupgradeamount;
     cpcupgradecost = Math.round(cpcupgradecost * 2.5);
-    updatecookies();
+   updatecookies();
   }
 }
 
@@ -77,38 +77,25 @@ function upgradecookiespersecond() {
     cpsupgradecost = Math.round(cpsupgradecost * 2.5);
     cpsupgradeamount = Math.round(cpsupgradeamount * 3);
     updatecookies();
-    autoclickcookie();
   }
 }
 
 
-//
 
-// Auto double-click every 2 seconds
-// setInterval(function () {
-//   clickcookie(cookiesperclick2);
-// }, 2000);
 
-// // Auto-click per 100ms
-// setInterval(autoclickcookie, 100);
-
-// // Update UI every second
-// setInterval(updatecookies, 1000);
-
-// ===== Disable right-click =====
+ 
+//disable right-click
 document.addEventListener('contextmenu', event => event.preventDefault());
-
-// ===== Initial calls =====
 autoclickcookie();
+setInterval(autoclickcookie, 1000);
 updatecookies();
-console.log("loaded");
-
-// ===== Auto-save =====
-setInterval(function () {
-  localStorage.setItem("cookies", cookies);
-  localStorage.setItem("cookiesperclick", cookiesperclick);
-  localStorage.setItem("cookiespersecond", cookiespersecond);
-  localStorage.setItem("cpcupgradecost", cpcupgradecost);
-  localStorage.setItem("cpsupgradecost", cpsupgradecost);
-  localStorage.setItem("cpsupgradeamount", cpsupgradeamount);
-}, 10000);
+setInterval(function() {
+  localstorage.setItem("cookies", cookies);
+  localstorage.setItem("cookiesperclick", cookiesperclick);
+  localstorage.setItem("cookiespersecond", cookiespersecond);
+  localstorage.setItem("cpcupgradecost", cpcupgradecost);
+  localstorage.setItem("cpsupgradecost", cpsupgradecost);
+  localstorage.setItem("cpsupgradeamount", cpsupgradeamount);
+  localstorage.setItem("powerAmount", powerAmount);
+}, 1000);
+console.log("cookie clicker loaded");
