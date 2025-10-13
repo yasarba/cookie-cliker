@@ -2,64 +2,67 @@ let cookies = 100;
 let cookiesperclick = 1;
 let powerAmount = 0;
 let cookiespersecond = 0;
+let cookiespersecond2 = 0;
 
-//cookies per click upgrade data
+// Upgrade data
 let cpcupgradecost = 10;
 let cpcupgradeamount = 1;
 
-//cookies per second upgrade data
 let cpsupgradecost = 100;
 let cpsupgradeamount = 10;
 
-//cookie button
-const cookie = document.getElementById("cookie")
+let cpsupgradecost2 = 10;
+let cpsupgradeamount2 = 1;
 
-//data labels
+// Cookie button
+const cookie = document.getElementById("cookie");
+
+// Data labels
 const cookiecounter = document.getElementById("cookiecounter");
 const cookiespersecondcounter = document.getElementById("cookiespersecond");
 const cookiesperclickcounter = document.getElementById("cookiesperclick");
 
-//upgrade buttons
+// Upgrade buttons
 const upgradecookiesperclickbtn = document.getElementById("upgradecookiesperclick");
 const upgradecookiesperclick2btn = document.getElementById("upgradecookiesperclick2");
 const upgradecookiespersecondbtn = document.getElementById("upgradecookiespersecond");
+const upgradecookiespersecond2btn = document.getElementById("upgradecookiespersecond2");
 
-//saving data
-const localstorage = window.localStorage;
-
-//*Click the cookie
+// Click the cookie
 function clickcookie(cookieAmount) {
-  cookies += cookieAmount * 2**powerAmount;
+  cookies += cookieAmount * 2 ** powerAmount;
   updatecookies();
 }
 
-// Auto-click per tick
+// Auto-click per second
 function autoclickcookie() {
-  clickcookie(cookiespersecond);
+  let totalCPS = cookiespersecond + cookiespersecond2;
+  cookies += totalCPS;
   updatecookies();
 }
 
-// Update all labels
+// Update labels
 function updatecookies() {
-  cookiecounter.textContent = cookies + " Cookies";
-  cookiespersecondcounter.textContent = cookiespersecond + " Cookies Per Second";
+  let totalCPS = cookiespersecond + cookiespersecond2;
+  cookiecounter.textContent = Math.floor(cookies) + " Cookies";
+  cookiespersecondcounter.textContent = totalCPS + " Cookies Per Second (CPS1: " + cookiespersecond + ", CPS2: " + cookiespersecond2 + ")";
   cookiesperclickcounter.textContent = cookiesperclick + " Cookie(s) Per Click";
   upgradecookiesperclickbtn.textContent = "Upgrade Cookies Per Click: " + cpcupgradecost + " Cookies";
-  upgradecookiespersecondbtn.textContent = "Upgrade Cookies Per Second: " + cpsupgradecost + " Cookies";
+  upgradecookiespersecondbtn.textContent = "Upgrade Cookies Per Second 1: " + cpsupgradecost + " Cookies";
+  upgradecookiespersecond2btn.textContent = "Upgrade Cookies Per Second 2: " + cpsupgradecost2 + " Cookies";
   upgradecookiesperclick2btn.textContent = "Upgrade Double Click: 50 Cookies";
 }
 
-// Upgrade cookies per click
+// Upgrades
 function upgradecookiesperclick() {
   if (cookies >= cpcupgradecost) {
     cookies -= cpcupgradecost;
     cookiesperclick += cpcupgradeamount;
     cpcupgradecost = Math.round(cpcupgradecost * 2.5);
-   updatecookies();
+    updatecookies();
   }
 }
 
-// Upgrade double click
 function upgradecookiesperclick2() {
   if (cookies >= 50) {
     cookies -= 50;
@@ -68,8 +71,6 @@ function upgradecookiesperclick2() {
   }
 }
 
-
-// Upgrade cookies per second
 function upgradecookiespersecond() {
   if (cookies >= cpsupgradecost) {
     cookies -= cpsupgradecost;
@@ -80,22 +81,49 @@ function upgradecookiespersecond() {
   }
 }
 
+function upgradecookiespersecond2() {
+  if (cookies >= cpsupgradecost2) {
+    cookies -= cpsupgradecost2;
+    cookiespersecond2 += cpsupgradeamount2;
+    cpsupgradecost2 = Math.round(cpsupgradecost2 * 2.5);
+    cpsupgradeamount2 = Math.round(cpsupgradeamount2 * 2);
+    updatecookies();
+  }
+}
 
-
-
- 
-//disable right-click
+// Disable right-click
 document.addEventListener('contextmenu', event => event.preventDefault());
-autoclickcookie();
+
+// Start game loop
 setInterval(autoclickcookie, 1000);
 updatecookies();
-setInterval(function() {
-  localstorage.setItem("cookies", cookies);
-  localstorage.setItem("cookiesperclick", cookiesperclick);
-  localstorage.setItem("cookiespersecond", cookiespersecond);
-  localstorage.setItem("cpcupgradecost", cpcupgradecost);
-  localstorage.setItem("cpsupgradecost", cpsupgradecost);
-  localstorage.setItem("cpsupgradeamount", cpsupgradeamount);
-  localstorage.setItem("powerAmount", powerAmount);
-}, 1000);
-console.log("cookie clicker loaded");
+
+
+
+function resetgame() {
+  if (confirm("Weet je zeker dat je je spel wilt resetten?")) {
+    // Verwijder opgeslagen data
+    localStorage.clear();
+
+    // Zet alle waarden terug naar begin
+    cookies = 0;
+    cookiesperclick = 1;
+    powerAmount = 0;
+    cookiespersecond = 0;
+    cookiespersecond2 = 0;
+    cpcupgradecost = 10;
+    cpcupgradeamount = 1;
+    cpsupgradecost = 100;
+    cpsupgradeamount = 10;
+    cpsupgradecost2 = 10;
+    cpsupgradeamount2 = 1;
+
+    // Werk de tekst op het scherm bij
+    updatecookies();
+
+    console.log("Game reset!");
+  }
+}
+
+
+console.log("Cookie Clicker loaded with 2 CPS systems!");
