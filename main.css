@@ -1,75 +1,244 @@
-body{
-  padding: 25px;
-  font-family:Arial;
-  background-color: black;
-  color:white;
-  margin: 0px;
-  padding: 0px;
+/* --- Reset & Global Styles --- */
+:root {
+    --bg-color: #f5e6d3;
+    --dark-brown: #5c4033;
+    --light-brown: #a67c52;
+    --gold: #d4af37;
+    --text-color: #333;
+    
+    /* NIEUWE VARIABELE voor de 3D-rand van knoppen */
+    --button-shadow: #8c6a3e; 
 }
 
-#cookiecounter{
-  font-weight: bold;
-  color: white;
-  text-shadow: 0px 0px 10px white;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-#cookiespersecond{
-  font-weight: bold;
-  color: white;
-  text-shadow: 0px 0px 10px white;
+/* --- Main Container for larger screens --- */
+@media (min-width: 768px) {
+    body {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 50px;
+    }
 }
 
-#cookiesperclick{
-  font-weight: bold;
-  color: white;
-  text-shadow: 0px 0px 10px white;
+/* --- Thema Switcher Knoppen --- */
+.theme-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px; /* Ruimte onder de knoppen */
 }
 
-#cookie{
-  height:15rem;
-  width:15rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  border-radius: 100%;
-  position: relative;
-  border: 5px solid black;
+.theme-switcher button {
+    width: auto; /* Niet 100% breed */
+    padding: 8px 15px;
+    font-size: 0.9em;
+    /* Gebruik nu de variabele voor de schaduw */
+    box-shadow: 0 4px 0 var(--button-shadow);
+    margin: 0;
 }
 
-.cookieinfodiv{
-  left: 0px;
-  top: 0px;
-  height: 100vh;
-  width: 75vw;
-  background-color: rgb(173, 128, 128);
-  text-align: center;
-  margin: 0px;
-  padding: 10px;
-  z-index: 1;
+.theme-switcher button:active {
+    top: 4px; /* Iets minder diep indrukken */
+    box-shadow: 0 0px 0 var(--button-shadow);
 }
 
-.shopdiv{
-  height: 100vh;
-  width: 25vw;
-  right: 0px;
-  top: 0px;
-  background-color: rgb(173, 128, 128);
-  position: absolute;
-  text-align: center;
-  padding: 10px;
-  z-index: 0;
+
+/* --- Cookie Info Section (Left/Top) --- */
+.cookieinfodiv {
+    text-align: center;
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.shopdiv button{
-  position: relative;
-  margin-top: 0.5rem;
-  background-color: rgb(244, 202, 50);
-  color: rgb(246, 245, 243);
-  font-weight: bold;
-  box-shadow: 0px 0px 5px 2px white;
+#cookiecounter {
+    font-size: 3em;
+    margin: 10px 0;
+    color: var(--dark-brown);
+    text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1);
 }
 
-.shopdiv p{
-  font-weight: bold;
-  color: white;
-  text-shadow: 0px 0px 10px white;
+/* Style voor de extra stats container (optioneel, als je die wilt gebruiken) */
+.stats {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: var(--light-brown);
+    border: 2px solid var(--dark-brown);
+}
+
+#cookiespersecond, #cookiesperclick {
+    margin: 5px 0;
+    font-weight: bold;
+    color: var(--light-brown);
+}
+
+/* --- The Big Cookie --- */
+.cookieinfodiv img {
+    width: 250px;
+    height: 250px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out, filter 0.2s;
+    user-select: none; /* Voorkomt selecteren van plaatje bij snel klikken */
+    -webkit-user-drag: none;
+    animation: pulse 3s infinite ease-in-out;
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.3));
+    margin: 20px 0;
+}
+
+.cookieinfodiv img:hover {
+    filter: drop-shadow(0px 12px 20px rgba(0,0,0,0.4)) brightness(1.1);
+}
+
+/* Klik effect */
+.cookieinfodiv img:active {
+    transform: scale(0.90) rotate(5deg) !important; /* Krimpt en draait iets bij klik */
+    animation: none; /* Stopt pulse animatie tijdens klik */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* --- Shop Section (Right/Bottom) --- */
+.shopdiv {
+    flex: 1;
+    max-width: 400px;
+    background: var(--dark-brown);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 10px 20px rgba(0,0,0,0.2);
+    color: #fff;
+    border: 5px solid var(--light-brown);
+    width: 100%;
+    margin-top: 20px; /* Ruimte op mobiel */
+}
+
+/* Reset margin-top op grotere schermen omdat we dan gap gebruiken */
+@media (min-width: 768px) {
+    .shopdiv {
+        margin-top: 0;
+    }
+}
+
+.shopdiv p {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 0;
+    border-bottom: 2px dashed var(--light-brown);
+    padding-bottom: 10px;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Speels font voor shop titel */
+    color: var(--gold);
+}
+
+/* --- Buttons --- */
+button {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(to bottom, var(--gold), var(--light-brown));
+    color: var(--dark-brown);
+    font-weight: bold;
+    /* Gebruik nu de variabele voor de schaduw */
+    box-shadow: 0 6px 0 var(--button-shadow), 0 15px 20px rgba(0,0,0,0.2);
+    transition: all 0.1s ease;
+    position: relative;
+    top: 0;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #e5c76b, #b8926a);
+    filter: brightness(1.1);
+}
+
+button:active {
+    top: 6px;
+    /* Gebruik nu de variabele voor de schaduw */
+    box-shadow: 0 0px 0 var(--button-shadow), 0 3px 5px rgba(0,0,0,0.2);
+}
+
+#resetbutton {
+    background: linear-gradient(to bottom, #ff6b6b, #c0392b);
+    color: white;
+    box-shadow: 0 6px 0 #962b1f, 0 15px 20px rgba(0,0,0,0.2);
+    margin-top: 30px;
+    max-width: 200px;
+}
+#resetbutton:active {
+     box-shadow: 0 0px 0 #962b1f, 0 3px 5px rgba(0,0,0,0.2);}
+
+
+/* ================================================= */
+/* ---        VERBETERDE DARK MODE THEMA         --- */
+/* ================================================= */
+
+body.theme-dark {
+    background-color: #2b1d1a;
+    color: var(--text-color);
+}
+/* --- Thema 1: Donkere Chocolade (Dark Mode) --- */
+body.theme-dark :root {
+    --bg-color: #2b1d1a;
+    --dark-brown: #4a3a34; /* Wordt nu gebruikt voor de shop (lichter dan bg) */
+    --light-brown: #b08a6f;
+    --gold: #ffd700;
+    --text-color: #f5e6d3; /* De originele lichte achtergrondkleur */
+    
+    /* Een veel donkerdere schaduw voor 3D effect in dark mode */
+    --button-shadow: #1f1412; 
+}
+
+/* Zorg dat de tekst op de knoppen donker en leesbaar blijft */
+body.theme-dark button {
+    color: var(--bg-color); /* Gebruik de donkere achtergrondkleur voor de tekst */
+}
+
+/* De reset knop heeft al witte tekst, die is prima */
+body.theme-dark #resetbutton {
+    color: white;
+}
+
+/* Tekst-schaduw van de teller aanpassen voor dark mode */
+body.theme-dark #cookiecounter {
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(255,255,255,0.1);
+}
+
+/* Stats tekstkleur */
+body.theme-dark #cookiespersecond, 
+body.theme-dark #cookiesperclick {
+    color: var(--light-brown);
+}
+
+/* VERBETERING: Geef de cookie een 'glow' in dark mode ipv een donkere schaduw */
+body.theme-dark .cookieinfodiv img {
+    /* Verander de schaduw naar een lichte 'glow' */
+    filter: drop-shadow(0px 5px 15px rgba(255, 221, 112, 0.3)); 
+}
+body.theme-dark .cookieinfodiv img:hover {
+    /* Maak de glow sterker bij hover */
+    filter: drop-shadow(0px 7px 20px rgba(255, 221, 112, 0.5)) brightness(1.1);
 }
