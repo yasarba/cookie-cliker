@@ -72,6 +72,7 @@ body {
     margin: 10px 0;
     color: var(--dark-brown);
     text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(0,0,0,0.1);
+
 }
 
 /* Style voor de extra stats container (optioneel, als je die wilt gebruiken) */
